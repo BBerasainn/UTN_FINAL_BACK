@@ -9,6 +9,8 @@ export function authMiddleware(req, res, next) {
 
   const token = header.split(" ")[1];
 
+  console.log("BODY RECIBIDO:", req.body);
+
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
