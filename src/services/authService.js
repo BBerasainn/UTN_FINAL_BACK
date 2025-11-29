@@ -17,11 +17,16 @@ export async function register({ name, email, password }) {
     isVerified: false,
   });
 
-  const token = createJWT({ userId: user._id });
-  await sendVerificationEmail(user, token);
+ const token = createJWT({ userId: user._id });
 
+  try {
+    await sendVerificationEmail(user, token);
+  } catch (err) {
+    console.error("❌ Error enviando email:", err.message);
+  }
+  
   return {
-    message: "Registro exitoso, revisá tu email para activar tu cuenta",
+    message: "Registro exitoso. Revisa tu email para activarlo.",
     user: {
       id: user._id,
       name: user.name,
