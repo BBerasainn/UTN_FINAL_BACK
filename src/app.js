@@ -39,7 +39,7 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/contacts", contactRoutes);
-app.use("/api/messages", messageRoutes);  
+app.use("/api/contacts", messageRoutes);  
 app.use("/api/chats", chatRoutes);
 
 app.get("/health", (req, res) => {
