@@ -5,37 +5,61 @@ import jwt from "jsonwebtoken";
 import { sendVerificationEmail } from "../utils/sendVerificationEmail.js";
 
 export async function register({ name, email, password }) {
-  console.log("ejecutando registe service");
-  const existingUser = await userRepository.getUserByEmail(email);
-  if (existingUser) throw new Error("El email ya está registrado");
+  console.log("📩 Datos recibidos:", { name, email, password });
 
-  const hashed = await hashPassword(password);
+  console.log("🔍 Checking existing user…");
+  let existingUser;
+  try {
+    existingUser = await userRepository.getUserByEmail(email);
+    console.log("🔍 Resultado getUserByEmail:", existingUser);
+  } catch (err) {
+    console.error("💥 Error en getUserByEmail:", err);
+    throw err;
+  }
 
-  const user = await userRepository.createUser({
-    name,
-    email,
-    password: hashed,
-    isVerified: false,
-  });
+  if (existingUser) {
+    console.log("⚠️ Usuario ya existe");
+    throw new Error("El email ya está registrado");
+  }
 
- const token = createJWT({ userId: user._id });
+  console.log("🔐 Generando hash…");
+  let hashed;
+  try {
+    hashed = await hashPassword(password);
+    console.log("🔐 Hash generado:", hashed);
+  } catch (err) {
+    console.error("💥 Error en hashPassword:", err);
+    throw err;
+  }
 
+  console.log("🔥 Creando usuario…");
+  let user;
+  try {
+    user = await userRepository.createUser({
+      name,
+      email,
+      password: hashed,
+      isVerified: false,
+    });
+    console.log("🔥 Usuario creado:", user);
+  } catch (err) {
+    console.error("💥 ERROR EXACTO en createUser:", err);
+    throw err;
+  }
+
+  // email
+  console.log("📧 Enviando email…");
+  const token = createJWT({ userId: user._id });
   try {
     await sendVerificationEmail(user, token);
+    console.log("📧 Email enviado OK");
   } catch (err) {
     console.error("❌ Error enviando email:", err.message);
   }
-  
-  return {
-    message: "Registro exitoso. Revisa tu email para activarlo.",
-    user: {
-      id: user._id,
-      name: user.name,
-      email: user.email,
-      isVerified: user.isVerified
-    }
-  };
+
+  return { user };
 }
+
 
 export async function login({ email, password }) {
   const user = await userRepository.getUserByEmail(email);
