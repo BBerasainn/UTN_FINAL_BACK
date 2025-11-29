@@ -1,7 +1,6 @@
 import * as userRepository from "../repositories/userRepository.js";
 import { hashPassword, comparePassword } from "../utils/hash.js";
-import { createJWT } from "../utils/jwt.js";
-import jwt from "jsonwebtoken";
+import { createJWT, verifyJWT } from "../utils/jwt.js";
 import { sendVerificationEmail } from "../utils/sendVerificationEmail.js";
 
 export async function register({ name, email, password }) {
@@ -64,7 +63,7 @@ export async function login({ email, password }) {
 
 export async function verifyAccount(token) {
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = verifyJWT(token); 
     const user = await userRepository.getUserById(decoded.userId);
 
     if (!user) throw new Error("Usuario no encontrado");
