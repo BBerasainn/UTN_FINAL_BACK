@@ -1,7 +1,7 @@
 import * as authService from "../services/authService.js";
 
 export async function register(req, res) {
-  console.log("BODY RECIBIDO EN REGISTER:", req.body);
+
   try {
     const user = await authService.register(req.body);
     res.json({ message: "Registro exitoso, revisá tu email", user });
