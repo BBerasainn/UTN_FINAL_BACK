@@ -1,4 +1,4 @@
-import User from "../models/user.js";
+import User from "../models/User.js";
 
 export async function createUser(data) {
   console.log("🔥 CREANDO USUARIO EN MONGO:");
