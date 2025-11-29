@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import { sendVerificationEmail } from "../utils/sendVerificationEmail.js";
 
 export async function register({ name, email, password }) {
+  console.log("ejecutando registe service");
   const existingUser = await userRepository.getUserByEmail(email);
   if (existingUser) throw new Error("El email ya está registrado");
 
