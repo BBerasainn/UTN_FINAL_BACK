@@ -12,18 +12,26 @@ dotenv.config();
 
 const app = express();
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://utnfinalfrontendfullstack.vercel.app",   // <-- PONÉ TU DOMINIO REAL ACA
+];
+
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173",                       
-      process.env.FRONTEND_URL                       
-    ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    origin: (origin, callback) => {
+      // Permitir requests sin origin (como Postman)
+      if (!origin) return callback(null, true);
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        return callback(new Error("CORS no permitido: " + origin), false);
+      }
+    },
     credentials: true,
   })
 );
-
 
 app.use(morgan("dev"));
 app.use(express.json({ limit: "10mb" }));
@@ -31,7 +39,7 @@ app.use(express.urlencoded({ extended: true, limit: "10mb" }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/contacts", contactRoutes);
-app.use("/api/contacts", messageRoutes);
+app.use("/api/messages", messageRoutes);  
 app.use("/api/chats", chatRoutes);
 
 app.get("/health", (req, res) => {
