@@ -1,8 +1,11 @@
 import User from "../models/user.js";
 
 export async function createUser(data) {
+  console.log("🔥 CREANDO USUARIO EN MONGO:");
+  console.log(data);
   return await User.create(data);
 }
+
 
 export async function getUserByEmail(email) {
   return await User.findOne({ email });
