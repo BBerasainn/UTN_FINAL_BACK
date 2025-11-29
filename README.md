@@ -24,7 +24,7 @@ CORS
 
 Render (deploy)
 
-Estructura del proyecto
+-Estructura del proyecto
 src/
 ├── app.js
 ├── server.js
@@ -51,9 +51,9 @@ src/
     ├── jwt.js
     └── sendVerificationEmail.js
 
-Variables de entorno
+-Variables de entorno
 
-Para funcionar correctamente, el backend utiliza las siguientes variables:
+Crear un archivo .env con:
 
 MONGO_URI=tu_conexion_mongodb
 JWT_SECRET=clave_secreta
@@ -63,44 +63,72 @@ MAILTRAP_USER=tu_usuario_mailtrap
 MAILTRAP_PASS=tu_password_mailtrap
 
 
-En modo desarrollo:
+En desarrollo:
 
 FRONTEND_URL=http://localhost:5173
 
-Endpoints principales
- /api/auth
+- Endpoints principales
+/api/auth
 
-POST /register → Registro de usuario + email de verificación
+POST /register → Registro + email de verificación
 
-GET /verify/:token → Verificar cuenta
+GET /verify/:token → Verifica la cuenta
 
-POST /login → Iniciar sesión
+POST /login → Login de usuario
 
 /api/contacts
 
-CRUD de contactos del usuario logueado.
+CRUD de contactos del usuario autenticado.
 
 /api/messages
 
-Mensajes entre usuarios.
+Envío y recepción de mensajes.
 
 /api/chats
 
 Creación y carga de chats.
 
-Cómo ejecutarlo en local
+/health
 
-Clonar el repositorio:
+Ruta para comprobar que el servidor está online:
+
+https://utn-final-back.onrender.com/health
+
+- Nota sobre la URL principal en Render
+
+Si se accede directamente a:
+
+https://utn-final-back.onrender.com
+
+
+Render muestra:
+
+Cannot GET /
+
+
+Esto es NORMAL porque el backend no tiene una ruta para /.
+Para verificar que está funcionando debe usarse:
+
+/health
+
+- Cómo ejecutarlo en local
+
+Clonar el repositorio
 
 git clone https://github.com/BBerasainn/UTN_FINAL_BACK.git
 
 
-Instalar dependencias:
+Entrar a la carpeta
+
+cd UTN_FINAL_BACK
+
+
+Instalar dependencias
 
 npm install
 
 
-Crear un archivo .env con:
+Crear el archivo .env
 
 MONGO_URI=tu_mongo
 JWT_SECRET=123456
@@ -109,31 +137,25 @@ MAILTRAP_USER=xxxx
 MAILTRAP_PASS=xxxx
 
 
-Ejecutar el servidor:
+Ejecutar el servidor
 
 npm run dev
 
 
 El backend quedará disponible en:
 
-http://localhost:4000
+- http://localhost:4000
 
-Flujo de autenticación
+- Flujo de autenticación
 
 El usuario se registra.
 
-El backend envía un email con un enlace de verificación.
+El backend envía un email desde Mailtrap con un enlace de verificación.
 
-El usuario hace clic y se verifica su cuenta.
+El usuario hace clic y queda verificado.
 
-Luego puede iniciar sesión normalmente.
+Luego puede iniciar sesión.
 
-El token JWT se usa para acceder a rutas protegidas.
+Se genera un token JWT.
 
-El usuario ya puede usar la sección de chat.
-
-Estado del deploy
-
-El backend está desplegado en Render:
-
-👉 https://utn-final-back.onrender.com
+Con ese token puede acceder a las rutas privadas (contactos, chats, mensajes).
