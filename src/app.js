@@ -14,7 +14,7 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://utnfinalfrontendfullstack.vercel.app",   // <-- PONÉ TU DOMINIO REAL ACA
+  "https://utnfinalfrontendfullstack-q5kl1y1te-bbs-projects-3a406ec0.vercel.app",  
 ];
 
 app.use(
