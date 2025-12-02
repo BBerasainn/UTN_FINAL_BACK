@@ -3,8 +3,6 @@ import { hashPassword, comparePassword } from "../utils/hash.js";
 import { createJWT, verifyJWT } from "../utils/jwt.js";
 import { sendVerificationEmail } from "../utils/gmailVerificationEmail.js";
 
-console.log("authService.js CARGADO (VERSION ACTUAL)");
-
 export async function register({ name, email, password }) {
   const existingUser = await userRepository.getUserByEmail(email);
   if (existingUser) {
@@ -20,9 +18,7 @@ export async function register({ name, email, password }) {
     isVerified: false,
   });
 
-  console.log("Antes de createJWT");
   const token = createJWT({ userId: user._id });
-  console.log("Token generado:", token);
 
   try {
     await sendVerificationEmail(user, token);
