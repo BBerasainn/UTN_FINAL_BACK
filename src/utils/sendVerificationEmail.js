@@ -1,19 +1,21 @@
 import nodemailer from "nodemailer";
 
 export async function sendVerificationEmail(user, token) {
+  
   const transporter = nodemailer.createTransport({
-    host: "sandbox.smtp.mailtrap.io",
-    port: 2525,
+    host: process.env.SMTP_HOST,      
+    port: Number(process.env.SMTP_PORT), 
+    secure: false,                 
     auth: {
-      user: process.env.MAILTRAP_USER,
-      pass: process.env.MAILTRAP_PASS,
+      user: process.env.SMTP_USER,   
+      pass: process.env.SMTP_PASS,   
     },
   });
 
   const verificationUrl = `${process.env.FRONTEND_URL}/verify/${token}`;
 
   await transporter.sendMail({
-    from: "no-reply@miapp.com",
+    from: `"UTN App" <${process.env.SMTP_USER}>`,
     to: user.email,
     subject: "Verifica tu cuenta",
     html: `
@@ -23,5 +25,5 @@ export async function sendVerificationEmail(user, token) {
     `,
   });
 
-  console.log("📧 Email enviado correctamente a Mailtrap:", user.email);
+  console.log("📧 Email enviado correctamente a:", user.email);
 }
