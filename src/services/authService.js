@@ -1,7 +1,7 @@
 import * as userRepository from "../repositories/userRepository.js";
 import { hashPassword, comparePassword } from "../utils/hash.js";
 import { createJWT, verifyJWT } from "../utils/jwt.js";
-import { sendVerificationEmail } from "../utils/sendVerificationEmail.js";
+import { sendVerificationEmail } from "../utils/gmailVerificationEmail.js";
 
 export async function register({ name, email, password }) {
   const existingUser = await userRepository.getUserByEmail(email);

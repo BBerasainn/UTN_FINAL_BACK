@@ -41,6 +41,8 @@
 import nodemailer from "nodemailer";
 import { google } from "googleapis";
 
+console.log("📌 gmailVerificationEmail.js CARGADO CORRECTAMENTE");
+
 export async function sendVerificationEmail(user, token) {
   console.log("📣 Enviando email con Gmail API OAuth2");
 
