@@ -20,7 +20,9 @@ export async function register({ name, email, password }) {
     isVerified: false,
   });
 
+  console.log("Antes de createJWT");
   const token = createJWT({ userId: user._id });
+  console.log("Token generado:", token);
 
   try {
     await sendVerificationEmail(user, token);
