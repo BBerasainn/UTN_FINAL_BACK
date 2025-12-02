@@ -3,6 +3,8 @@ import { hashPassword, comparePassword } from "../utils/hash.js";
 import { createJWT, verifyJWT } from "../utils/jwt.js";
 import { sendVerificationEmail } from "../utils/gmailVerificationEmail.js";
 
+console.log("authService.js CARGADO (VERSION ACTUAL)");
+
 export async function register({ name, email, password }) {
   const existingUser = await userRepository.getUserByEmail(email);
   if (existingUser) {
