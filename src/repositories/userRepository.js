@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 
 export async function createUser(data) {
-  console.log("🔥 CREANDO USUARIO EN MONGO:");
+  console.log("CREANDO USUARIO EN MONGO:");
   console.log(data);
   return await User.create(data);
 }
